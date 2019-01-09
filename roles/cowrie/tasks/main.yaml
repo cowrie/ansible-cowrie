@@ -6,52 +6,40 @@
 # - never
 # - always
 # - update
+# - root      -- this tags require sudo access
 
 # Prepare Operating System
 # These tasks need to be executed as root
 ##############################################
 
-- name: apt-get update 
-  apt: update_cache=yes 
-  tags: update
+- name: apt-get update
+  apt: update_cache=yes
+  tags: [update,root]
   when: ansible_os_family == 'Debian'
 
 # TODO: Use independent method ??
 #- name: Install prerequisites packages
-#  package: 
+#  package:
 #    name: git
 #    state: present
 
-- name: install os dependencies 
+- name: install os dependencies
   become: true
-  tags: [packages,update]
-  apt: name="{{item}}" state=present install_recommends=no
-  with_items:
-    - git-core
-    - libmysqlclient-dev
-    - libffi-dev
-    - libssl-dev
-    - libxml2-dev
-    - libxslt1-dev
-    - openssl
-    - python-pip
-    - python-dev
-    - build-essential
+  tags: [packages,update,root]
+  apt:
+    name: ['git-core','libmysqlclient-dev','libffi-dev','libssl-dev','libxml2-dev','libxslt1-dev','openssl','python-pip','python-dev','build-essential']
+    state: present
+    install_recommends: no
   when: ansible_os_family == 'Debian'
 
 # TODO: look into DNF, RedHat's new package manager
 
-- name: install os dependencies 
+- name: install os dependencies
   become: true
-  tags: [packages,update]
-  yum: name={{ item }} state=present
-  with_items:
-    - git
-    - python-virtualenv
-    - "@Development tools"
-    - libffi
-    - libffi-devel
-    - openssl-devel
+  tags: [packages,update,root]
+  yum:
+    name: ['git','python-virtualenv','@Development tools','libffi','libffi-devel','openssl-devel']
+    state: present
   when: ansible_os_family == 'RedHat'
 
 # TODO: Probably don't need this at the OS level
@@ -65,7 +53,7 @@
 
 - name: Create Cowrie User
   become: true
-  tags: user
+  tags: [user,root]
   user:
     name: "{{ cowrie_user }}"
     home: "{{ cowrie_home }}"
@@ -77,35 +65,35 @@
 
 - name: Install systemd service file
   template: src=cowrie.service.j2 dest=/etc/systemd/system/cowrie.service
-  tags: startup
+  tags: [startup,root]
   notify:
     - reload systemctl
     - restart cowrie
 
 - name: Enable cowrie service
-  tags: startup
+  tags: [startup,root]
   service: name=cowrie enabled=yes
 
 # Startup for init.d
 
 - name: Install init.d script cowrie
   become: true
-  tags: startup
+  tags: [startup,root]
   template: src=cowrie.service dest=/etc/init.d/cowrie
 
 - name: Make /etc/init.d/cowrie executable
   become: true
-  tags: startup
+  tags: [startup,root]
   file: path=/etc/init.d/cowrie mode=0755
 
 - name: Restart cowrie
-  tags: [git,cfg,update]
-  service: name=cowrie state=restarted 
+  tags: [update,root]
+  service: name=cowrie state=restarted
 
 # TODO: this needs to be rewritten
 
 - name: Alias 22REDIRECT = iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-ports 2222
-  tags: alias22
+  tags: [alias22,root]
   lineinfile: dest=/home/{{ user }}/.bashrc line="alias 22REDIRECT='sudo iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-ports 2222'" insertafter=EOF
 
 # Install Cowrie
@@ -113,7 +101,7 @@
 
 - name: Git clone Cowrie repository
   tags: [git,update]
-  become: yes 
+  become: yes
   become_user: "{{ cowrie_user }}"
   git:
     repo: "{{ cowrie_repo }}"

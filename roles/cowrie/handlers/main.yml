@@ -1,0 +1,9 @@
+---
+  - name: reload systemctl
+    command: systemctl daemon-reload
+
+  - name: restart cowrie
+    service: name=cowrie state=restarted
+
+  - name: start cowrie
+    service: name=cowrie state=started

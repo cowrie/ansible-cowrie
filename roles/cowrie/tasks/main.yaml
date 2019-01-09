@@ -124,20 +124,11 @@
     - name: "{{ item }}"
     - virtualenv: "{{ cowrie_venv }}"
     - state: latest
+    - requirements: "{{ item }}"
   with_items:
-    - twisted
-    - pycrypto
-    - pyasn1
-    - pyopenssl
-    - zope.interface
-    - service_identity
-    - requests
-    - python_dateutil
-    - pyes
-    - pymongo
-    - pymysql
-    - mysql-python
-    - wokkel
+    - /opt/cowrie/cowrie/requirements.txt
+    - /opt/cowrie/cowrie/requirements-optional.txt
+
 
 - name: Install Cowrie config file
   tags: [cfg,update]

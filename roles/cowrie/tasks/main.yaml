@@ -25,18 +25,18 @@
 - name: install os dependencies 
   become: true
   tags: [packages,update]
-  apt: name="{{item}}" state=installed install_recommends=no
+  apt: name="{{item}}" state=present install_recommends=no
   with_items:
-       - git-core
-       - libmysqlclient-dev
-       - libffi-dev
-       - libssl-dev
-       - libxml2-dev
-       - libxslt1-dev
-       - openssl
-       - python-pip
-       - python-dev
-       - build-essential
+    - git-core
+    - libmysqlclient-dev
+    - libffi-dev
+    - libssl-dev
+    - libxml2-dev
+    - libxslt1-dev
+    - openssl
+    - python-pip
+    - python-dev
+    - build-essential
   when: ansible_os_family == 'Debian'
 
 # TODO: look into DNF, RedHat's new package manager
@@ -44,34 +44,34 @@
 - name: install os dependencies 
   become: true
   tags: [packages,update]
-  yum: name={{ item }} state=installed
+  yum: name={{ item }} state=present
   with_items:
-      - git
-      - python-virtualenv
-      - "@Development tools"
-      - libffi
-      - libffi-devel
-      - openssl-devel
+    - git
+    - python-virtualenv
+    - "@Development tools"
+    - libffi
+    - libffi-devel
+    - openssl-devel
   when: ansible_os_family == 'RedHat'
 
 # TODO: Probably don't need this at the OS level
 
-- name: PIP Install Packages
-  become: true
-  tags: [packages,update]
-  pip:
-      name: virtualenv
-      state: present
+#- name: PIP Install Packages
+#  become: true
+#  tags: [packages,update]
+#  pip:
+#    - name: virtualenv
+#    - state: present
 
 - name: Create Cowrie User
   become: true
   tags: user
   user:
-      name: "{{ cowrie_user }}"
-      home: "{{ cowrie_home }}"
-      comment: "Used to run Cowrie SSH/Telnet Honeypot"
-      state: present
-      password: "!"
+    name: "{{ cowrie_user }}"
+    home: "{{ cowrie_home }}"
+    comment: "Used to run Cowrie SSH/Telnet Honeypot"
+    state: present
+    password: "!"
 
 # Startup for systemd
 
@@ -116,9 +116,9 @@
   become: yes 
   become_user: "{{ cowrie_user }}"
   git:
-      repo: "{{ cowrie_repo }}"
-      dest: "{{ cowrie_home }}/cowrie"
-      force: yes
+    repo: "{{ cowrie_repo }}"
+    dest: "{{ cowrie_home }}/cowrie"
+    force: yes
 
 # TODO: can this take from requirements.txt ?
 
@@ -127,10 +127,10 @@
   become: yes
   become_user: "{{ cowrie_user }}"
   pip:
-    - name: "{{ item }}"
-    - virtualenv: "{{ cowrie_venv }}"
-    - state: latest
-    - requirements: "{{ item }}"
+    name: "{{ item }}"
+    virtualenv: "{{ cowrie_venv }}"
+    state: latest
+    requirements: "{{ item }}"
   with_items:
     - /opt/cowrie/cowrie/requirements.txt
     - /opt/cowrie/cowrie/requirements-optional.txt

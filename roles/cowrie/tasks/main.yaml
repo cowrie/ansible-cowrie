@@ -77,7 +77,7 @@
   become_user: "{{ cowrie_user }}"
   git:
     repo: "{{ cowrie_repo }}"
-    dest: "{{ cowrie_home }}/cowrie"
+    dest: "{{ cowrie_dir }}"
     force: yes
 
 # TODO: needs to pull
@@ -110,7 +110,7 @@
     state: latest
 
 - name: Install optional Python packages in Virtual Environment
-  tags: [update]
+  tags: [update,never]
   become: yes
   become_user: "{{ cowrie_user }}"
   pip:
@@ -122,11 +122,11 @@
   tags: [cfg,update]
   become: yes
   become_user: "{{ cowrie_user }}"
-  template: src=cowrie.cfg.j2 dest="{{ cowrie_src_dir }}/cowrie.cfg"
+  template: src=cowrie.cfg.j2 dest="{{ cowrie_dir }}/etc/cowrie.cfg"
 
 # Startup for systemd
 
-- name: Install systemd service file
+- name: Install systemd unit file
   template: src=cowrie.service.j2 dest=/etc/systemd/system/cowrie.service
   tags: [startup,root]
   notify:

@@ -1,0 +1,147 @@
+# Ansible Tasks for Cowrie SSH/Telnet Honeypot
+##############################################
+
+# Prepare Operating System
+# These tasks need to be executed as root
+##############################################
+
+- name: apt-get update 
+  apt: update_cache=yes 
+  tags: update
+  when: ansible_os_family == 'Debian'
+
+# TODO: Use independent method ??
+#- name: Install prerequisites packages
+#  package: 
+#    name: git
+#    state: present
+
+- name: install os dependencies 
+  become: true
+  tags: [packages,update]
+  apt: name="{{item}}" state=installed install_recommends=no
+  with_items:
+       - git-core
+       - libmysqlclient-dev
+       - libffi-dev
+       - libssl-dev
+       - libxml2-dev
+       - libxslt1-dev
+       - openssl
+       - python-pip
+       - python-dev
+       - build-essential
+  when: ansible_os_family == 'Debian'
+
+# TODO: look into DNF, RedHat's new package manager
+
+- name: install os dependencies 
+  become: true
+  tags: [packages,update]
+  yum: name={{ item }} state=installed
+  with_items:
+      - git
+      - python-virtualenv
+      - "@Development tools"
+      - libffi
+      - libffi-devel
+      - openssl-devel
+  when: ansible_os_family == 'RedHat'
+
+# TODO: Probably don't need this at the OS level
+
+- name: PIP Install Packages
+  become: true
+  tags: [packages,update]
+  pip:
+      name: virtualenv
+      state: present
+
+- name: Create Cowrie User
+  become: true
+  tags: user
+  user:
+      name: "{{ cowrie_user }}"
+      home: "{{ cowrie_home }}"
+      comment: "Used to run Cowrie SSH/Telnet Honeypot"
+      state: present
+      password: "!"
+
+# Startup for systemd
+
+- name: Install systemd service file
+  template: src=cowrie.service.j2 dest=/etc/systemd/system/cowrie.service
+  tags: startup
+  notify:
+    - reload systemctl
+    - restart cowrie
+
+- name: Enable cowrie service
+  tags: startup
+  service: name=cowrie enabled=yes
+
+# Startup for init.d
+
+- name: Install init.d script cowrie
+  become: true
+  tags: startup
+  template: src=cowrie.service dest=/etc/init.d/cowrie
+
+- name: Make /etc/init.d/cowrie executable
+  become: true
+  tags: startup
+  file: path=/etc/init.d/cowrie mode=0755
+
+- name: Restart cowrie
+  tags: [git,cfg,update]
+  service: name=cowrie state=restarted 
+
+# TODO: this needs to be rewritten
+
+- name: Alias 22REDIRECT = iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-ports 2222
+  tags: alias22
+  lineinfile: dest=/home/{{ user }}/.bashrc line="alias 22REDIRECT='sudo iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-ports 2222'" insertafter=EOF
+
+# Install Cowrie
+################
+
+- name: Git clone Cowrie repository
+  tags: [git,update]
+  become: yes 
+  become_user: "{{ cowrie_user }}"
+  git:
+      repo: "{{ cowrie_repo }}"
+      dest: "{{ cowrie_home }}/cowrie"
+      force: yes
+
+# TODO: can this take from requirements.txt ?
+
+- name: Install Python packages in Virtual Environment
+  tags: [virtpackages,update]
+  become: yes
+  become_user: "{{ cowrie_user }}"
+  pip:
+    - name: "{{ item }}"
+    - virtualenv: "{{ cowrie_venv }}"
+    - state: latest
+  with_items:
+    - twisted
+    - pycrypto
+    - pyasn1
+    - pyopenssl
+    - zope.interface
+    - service_identity
+    - requests
+    - python_dateutil
+    - pyes
+    - pymongo
+    - pymysql
+    - mysql-python
+    - wokkel
+
+- name: Install Cowrie config file
+  tags: [cfg,update]
+  become: yes
+  become_user: "{{ cowrie_user }}"
+  template: src=cowrie.cfg.j2 dest="{{ cowrie_src_dir }}/cowrie.cfg"
+

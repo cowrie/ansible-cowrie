@@ -1,6 +1,12 @@
 # Ansible Tasks for Cowrie SSH/Telnet Honeypot
 ##############################################
 
+# Available tags:
+# - debug
+# - never
+# - always
+# - update
+
 # Prepare Operating System
 # These tasks need to be executed as root
 ##############################################

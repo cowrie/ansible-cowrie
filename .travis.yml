@@ -10,17 +10,15 @@ env:
   - distribution: centos
     version: 6
   - distribution: fedora
-    version: 26
+    version: 29
   - distribution: fedora
-    version: 25
+    version: 28
   - distribution: fedora
-    version: 24
+    version: 27
   - distribution: ubuntu
     version: xenial
   - distribution: ubuntu
     version: trusty
-  - distribution: debian
-    version: sid
   - distribution: debian
     version: buster
   - distribution: debian

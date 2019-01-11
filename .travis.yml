@@ -7,6 +7,8 @@ install:
 env:
   - distribution: centos
     version: 7
+  - distribution: centos
+    version: 6
   - distribution: fedora
     version: 26
   - distribution: fedora
@@ -17,6 +19,10 @@ env:
     version: xenial
   - distribution: ubuntu
     version: trusty
+  - distribution: debian
+    version: sid
+  - distribution: debian
+    version: buster
   - distribution: debian
     version: stretch
   - distribution: debian

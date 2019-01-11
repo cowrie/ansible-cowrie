@@ -1,6 +1,9 @@
 sudo: required
 services:
   - docker
+language: python
+install:
+  - pip install ansible
 env:
   - distribution: centos
     version: 7

@@ -1,19 +1,26 @@
 sudo: required
 services:
   - docker
+language: python
+install:
+  - pip install ansible
 env:
   - distribution: centos
     version: 7
+  - distribution: centos
+    version: 6
   - distribution: fedora
-    version: 26
+    version: 29
   - distribution: fedora
-    version: 25
+    version: 28
   - distribution: fedora
-    version: 24
+    version: 27
   - distribution: ubuntu
     version: xenial
   - distribution: ubuntu
     version: trusty
+  - distribution: debian
+    version: buster
   - distribution: debian
     version: stretch
   - distribution: debian

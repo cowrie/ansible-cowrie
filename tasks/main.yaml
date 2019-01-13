@@ -8,9 +8,6 @@
 # - update
 # - root      -- this tags require sudo access
 # - docker    -- for use with docker
-
-# Prepare Operating System
-# These tasks need to be executed as root
 ##############################################
 
 - import_tasks: cowrie-os.yaml
@@ -19,9 +16,12 @@
     - root
 
 - import_tasks: cowrie-venv.yaml
+  become: yes
+  become_user: "{{ cowrie_user }}"
   tags:
     - cowrie
     - python
+    - virtualenv
 
 # Install Cowrie
 ################
@@ -42,35 +42,8 @@
   become_user: "{{ cowrie_user }}"
   git:
     repo: "{{ cowrie_repo }}"
-    dest: "{{ cowrie_home }}/cowrie"
+    dest: "{{ cowrie_dir }}"
     force: yes
-
-- name: Update Python packages in Virtual Environment
-  tags: [update]
-  become: yes
-  become_user: "{{ cowrie_user }}"
-  pip:
-    name: ['pip', 'setuptools']
-    virtualenv: "{{ cowrie_venv }}"
-    state: latest
-
-- name: Install Python packages in Virtual Environment
-  tags: [update]
-  become: yes
-  become_user: "{{ cowrie_user }}"
-  pip:
-    requirements: /opt/cowrie/cowrie/requirements.txt
-    virtualenv: "{{ cowrie_venv }}"
-    state: latest
-
-- name: Install optional Python packages in Virtual Environment
-  tags: [update, never]
-  become: yes
-  become_user: "{{ cowrie_user }}"
-  pip:
-    requirements: /opt/cowrie/cowrie/requirements-output.txt
-    virtualenv: "{{ cowrie_venv }}"
-    state: latest
 
 - name: Install Cowrie config file
   tags: [cfg, update]

@@ -9,8 +9,7 @@
 # - root      -- this tags require sudo access
 # - docker    -- for use with docker
 
-# Prepare Operating System
-# These tasks need to be executed as root
+# Prepare Python virtual environment
 ##############################################
 
 - name: Update Python packages in Virtual Environment
@@ -22,21 +21,20 @@
     virtualenv: "{{ cowrie_venv }}"
     state: latest
 
-
 - name: Install Python packages in Virtual Environment
   tags: [update]
   become: yes
   become_user: "{{ cowrie_user }}"
   pip:
-    requirements: /opt/cowrie/cowrie/requirements.txt
+    requirements: "{{ cowrie_dir }}/requirements.txt"
     virtualenv: "{{ cowrie_venv }}"
-    state: latest
+    state: present
 
 - name: Install optional Python packages in Virtual Environment
   tags: [update, never]
   become: yes
   become_user: "{{ cowrie_user }}"
   pip:
-    requirements: /opt/cowrie/cowrie/requirements-output.txt
+    requirements: "{{ cowrie_dir }}/requirements-output.txt"
     virtualenv: "{{ cowrie_venv }}"
-    state: latest
+    state: present

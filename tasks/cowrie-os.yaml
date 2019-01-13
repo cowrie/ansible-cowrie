@@ -1,0 +1,103 @@
+# Ansible Tasks for Cowrie SSH/Telnet Honeypot
+##############################################
+
+# Available tags:
+# - debug
+# - never
+# - always
+# - update
+# - root      -- this tags require sudo access
+# - docker    -- for use with docker
+
+# Prepare Operating System
+# These tasks need to be executed as root
+##############################################
+
+- name: apt-get update
+  apt: update_cache=yes
+  tags: [update,root,never]
+  when: ansible_facts['os_family'] == 'Debian'
+
+# TODO: Use independent method ??
+#- name: Install prerequisites packages
+#  package:
+#    name: git
+#    state: present
+
+- name: install debian os dependencies
+  become: true
+  tags: [packages,root]
+  apt:
+    name: ['git-core','libmysqlclient-dev','libffi-dev','libssl-dev','libxml2-dev','libxslt1-dev','openssl','python-pip','python-dev','build-essential','virtualenv']
+    state: present
+    install_recommends: no
+  when: ansible_facts['os_family'] == 'Debian'
+
+# TODO: look into DNF, RedHat's new package manager
+
+- name: install redhat os dependencies
+  become: true
+  tags: [packages,root]
+  yum:
+    name: ['git','python-virtualenv','@Development tools','libffi','libffi-devel','openssl-devel']
+    state: present
+  when: ansible_facts['os_family'] == 'RedHat'
+
+# TODO: Probably don't need this at the OS level
+
+#- name: PIP Install Packages
+#  become: true
+#  tags: [packages,update]
+#  pip:
+#    - name: virtualenv
+#    - state: present
+
+- name: Create Cowrie User
+  become: true
+  tags: [user,root]
+  user:
+    name: "{{ cowrie_user }}"
+    home: "{{ cowrie_home }}"
+    comment: "Used to run Cowrie SSH/Telnet Honeypot"
+    state: present
+    password: "!"
+
+# TODO: this needs to be rewritten
+
+#- name: Alias 22REDIRECT = iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-ports 2222
+#  tags: [alias22,root]
+#  lineinfile: dest=/home/{{ user }}/.bashrc line="alias 22REDIRECT='sudo iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-ports 2222'" insertafter=EOF
+
+# Startup for systemd
+
+- name: Install systemd unit file
+  template: src=cowrie.service.j2 dest=/etc/systemd/system/cowrie.service
+  tags: [startup,root]
+  notify:
+    - reload systemctl
+    - restart cowrie
+  when: ansible_service_mgr == 'systemd'
+
+- name: Enable cowrie service
+  tags: [startup,root]
+  service: name=cowrie enabled=yes
+  when: ansible_service_mgr == 'systemd'
+
+# Startup for init.d
+
+- name: Install init.d script cowrie
+  become: true
+  tags: [startup,root]
+  template: src=cowrie.service dest=/etc/init.d/cowrie
+  when: ansible_service_mgr == 'sysvinit'
+
+- name: Make /etc/init.d/cowrie executable
+  become: true
+  tags: [startup,root]
+  file: path=/etc/init.d/cowrie mode=0755
+  when: ansible_service_mgr == 'sysvinit'
+
+- name: Restart cowrie
+  tags: [update,root]
+  service: name=cowrie state=restarted
+

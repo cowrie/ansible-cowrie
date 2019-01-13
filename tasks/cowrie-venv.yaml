@@ -13,38 +13,6 @@
 # These tasks need to be executed as root
 ##############################################
 
-- import_tasks: cowrie-os.yml
-  tags:
-    - cowrie
-    - root
-
-- import_tasks: cowrie-venv.yml
-  tags:
-    - cowrie
-    - python
-
-# Install Cowrie
-################
-
-- name: Git clone Cowrie repository
-  tags: [git]
-  become: yes
-  become_user: "{{ cowrie_user }}"
-  git:
-    repo: "{{ cowrie_repo }}"
-    dest: "{{ cowrie_dir }}"
-    force: yes
-
-# TODO: needs to pull
-- name: Git pull Cowrie repository
-  tags: [git,never]
-  become: yes
-  become_user: "{{ cowrie_user }}"
-  git:
-    repo: "{{ cowrie_repo }}"
-    dest: "{{ cowrie_home }}/cowrie"
-    force: yes
-
 - name: Update Python packages in Virtual Environment
   tags: [update]
   become: yes
@@ -53,6 +21,7 @@
     name: ['pip', 'setuptools']
     virtualenv: "{{ cowrie_venv }}"
     state: latest
+
 
 - name: Install Python packages in Virtual Environment
   tags: [update]
@@ -71,10 +40,3 @@
     requirements: /opt/cowrie/cowrie/requirements-output.txt
     virtualenv: "{{ cowrie_venv }}"
     state: latest
-
-- name: Install Cowrie config file
-  tags: [cfg,update]
-  become: yes
-  become_user: "{{ cowrie_user }}"
-  template: src=cowrie.cfg.j2 dest="{{ cowrie_dir }}/etc/cowrie.cfg"
-

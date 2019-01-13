@@ -16,7 +16,10 @@
 # Startup for systemd
 
 - name: Install systemd unit file
-  template: src=cowrie.service.j2 dest=/etc/systemd/system/cowrie.service
+  become: true
+  template:
+    src: cowrie.service.systemd.j2
+    dest: /etc/systemd/system/cowrie.service
   tags: [startup, root]
   notify:
     - reload systemctl
@@ -24,6 +27,7 @@
   when: ansible_service_mgr == 'systemd'
 
 - name: Enable cowrie service
+  become: true
   tags: [startup, root]
   service: name=cowrie enabled=yes
   when: ansible_service_mgr == 'systemd'
@@ -33,7 +37,7 @@
 - name: Install init.d script cowrie
   become: true
   tags: [startup, root]
-  template: src=cowrie.service dest=/etc/init.d/cowrie
+  template: src=cowrie.service.initd.j2 dest=/etc/init.d/cowrie
   when: ansible_service_mgr == 'sysvinit'
 
 - name: Make /etc/init.d/cowrie executable

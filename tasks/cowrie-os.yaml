@@ -29,7 +29,7 @@
   become: true
   tags: [packages, root]
   apt:
-    name: ['git-core', 'libmysqlclient-dev', 'libffi-dev', 'libssl-dev',
+    name: ['git-core', 'default-libmysqlclient-dev', 'libffi-dev', 'libssl-dev',
            'libxml2-dev', 'libxslt1-dev', 'openssl', 'python-pip',
            'python-dev', 'build-essential', 'virtualenv']
     state: present

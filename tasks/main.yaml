@@ -16,14 +16,6 @@
     - cowrie
     - root
 
-- import_tasks: cowrie-venv.yaml
-  become: true
-  become_user: "{{ cowrie_user }}"
-  tags:
-    - cowrie
-    - python
-    - virtualenv
-
 # Install Cowrie
 ################
 
@@ -34,6 +26,7 @@
   git:
     repo: "{{ cowrie_repo }}"
     dest: "{{ cowrie_dir }}"
+    version: 1.5.2
     force: true
 
 # TODO: needs to pull
@@ -44,6 +37,7 @@
   git:
     repo: "{{ cowrie_repo }}"
     dest: "{{ cowrie_dir }}"
+    version: 1.5.2
     force: true
 
 - name: Install Cowrie config file
@@ -53,6 +47,14 @@
   template:
     src: ../templates/cowrie.cfg.j2
     dest: "{{ cowrie_dir }}/etc/cowrie.cfg"
+
+- import_tasks: cowrie-venv.yaml
+  become: true
+  become_user: "{{ cowrie_user }}"
+  tags:
+    - cowrie
+    - python
+    - virtualenv
 
 - import_tasks: cowrie-startup.yaml
   become: true

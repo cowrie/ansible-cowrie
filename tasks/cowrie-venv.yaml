@@ -1,3 +1,4 @@
+---
 # Ansible Tasks for Cowrie SSH/Telnet Honeypot
 ##############################################
 
@@ -14,7 +15,7 @@
 
 - name: Ensure prereq Python packages in Virtual Environment
   tags: [python]
-  become: yes
+  become: true
   become_user: "{{ cowrie_user }}"
   pip:
     name: ['pip>9', 'setuptools>18.5']
@@ -23,7 +24,7 @@
 
 - name: Ensure requirements.txt Python packages in Virtual Environment
   tags: [python]
-  become: yes
+  become: true
   become_user: "{{ cowrie_user }}"
   pip:
     requirements: "{{ cowrie_dir }}/requirements.txt"
@@ -32,7 +33,7 @@
 
 - name: Install optional Python packages in Virtual Environment
   tags: [python, never]
-  become: yes
+  become: true
   become_user: "{{ cowrie_user }}"
   pip:
     requirements: "{{ cowrie_dir }}/requirements-output.txt"

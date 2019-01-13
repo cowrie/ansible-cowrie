@@ -1,3 +1,4 @@
+---
 # Ansible Tasks for Cowrie SSH/Telnet Honeypot
 ##############################################
 
@@ -16,7 +17,7 @@
     - root
 
 - import_tasks: cowrie-venv.yaml
-  become: yes
+  become: true
   become_user: "{{ cowrie_user }}"
   tags:
     - cowrie
@@ -28,33 +29,33 @@
 
 - name: Git clone Cowrie repository
   tags: [git]
-  become: yes
+  become: true
   become_user: "{{ cowrie_user }}"
   git:
     repo: "{{ cowrie_repo }}"
     dest: "{{ cowrie_dir }}"
-    force: yes
+    force: true
 
 # TODO: needs to pull
 - name: Git pull Cowrie repository
   tags: [git, never]
-  become: yes
+  become: true
   become_user: "{{ cowrie_user }}"
   git:
     repo: "{{ cowrie_repo }}"
     dest: "{{ cowrie_dir }}"
-    force: yes
+    force: true
 
 - name: Install Cowrie config file
   tags: [cfg]
-  become: yes
+  become: true
   become_user: "{{ cowrie_user }}"
   template:
     src: ../templates/cowrie.cfg.j2
     dest: "{{ cowrie_dir }}/etc/cowrie.cfg"
 
 - import_tasks: cowrie-startup.yaml
-  become: yes
+  become: true
   tags:
     - cowrie
     - root

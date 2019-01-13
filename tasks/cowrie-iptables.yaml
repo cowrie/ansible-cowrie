@@ -16,6 +16,7 @@
 # TODO: this needs to be rewritten
 # TODO: this needs extra code to maybe change original SSH?
 
-name: Alias 22REDIRECT = iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-ports 2222
-tags: [alias22, root]
-lineinfile: dest=/home/{{ user }}/.bashrc line="alias 22REDIRECT='sudo iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-ports 2222'" insertafter=EOF
+# name: Alias 22REDIRECT
+# tags: [root]
+# lineinfile: 'sudo iptables -t nat -A PREROUTING -p tcp --dport 22
+#             -j REDIRECT --to-ports 2222'

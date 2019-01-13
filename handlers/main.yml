@@ -6,5 +6,8 @@
 - name: restart cowrie
   service: name=cowrie state=restarted
 
+- name: restart ssh
+  service: name=ssh state=restarted
+
 - name: start cowrie
   service: name=cowrie state=started

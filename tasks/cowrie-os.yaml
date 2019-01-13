@@ -15,7 +15,7 @@
 
 - name: apt-get update
   apt: update_cache=yes
-  tags: [update,root,never]
+  tags: [update, root, never]
   when: ansible_facts['os_family'] == 'Debian'
 
 # TODO: Use independent method ??
@@ -26,9 +26,9 @@
 
 - name: install debian os dependencies
   become: true
-  tags: [packages,root]
+  tags: [packages, root]
   apt:
-    name: ['git-core','libmysqlclient-dev','libffi-dev','libssl-dev','libxml2-dev','libxslt1-dev','openssl','python-pip','python-dev','build-essential','virtualenv']
+    name: ['git-core', 'libmysqlclient-dev', 'libffi-dev', 'libssl-dev', 'libxml2-dev', 'libxslt1-dev', 'openssl', 'python-pip', 'python-dev', 'build-essential', 'virtualenv']
     state: present
     install_recommends: no
   when: ansible_facts['os_family'] == 'Debian'
@@ -37,9 +37,9 @@
 
 - name: install redhat os dependencies
   become: true
-  tags: [packages,root]
+  tags: [packages, root]
   yum:
-    name: ['git','python-virtualenv','@Development tools','libffi','libffi-devel','openssl-devel']
+    name: ['git', 'python-virtualenv', '@Development tools', 'libffi', 'libffi-devel', 'openssl-devel']
     state: present
   when: ansible_facts['os_family'] == 'RedHat'
 
@@ -47,14 +47,14 @@
 
 #- name: PIP Install Packages
 #  become: true
-#  tags: [packages,update]
+#  tags: [packages, update]
 #  pip:
 #    - name: virtualenv
 #    - state: present
 
 - name: Create Cowrie User
   become: true
-  tags: [user,root]
+  tags: [user, root]
   user:
     name: "{{ cowrie_user }}"
     home: "{{ cowrie_home }}"
@@ -72,14 +72,14 @@
 
 - name: Install systemd unit file
   template: src=cowrie.service.j2 dest=/etc/systemd/system/cowrie.service
-  tags: [startup,root]
+  tags: [startup, root]
   notify:
     - reload systemctl
     - restart cowrie
   when: ansible_service_mgr == 'systemd'
 
 - name: Enable cowrie service
-  tags: [startup,root]
+  tags: [startup, root]
   service: name=cowrie enabled=yes
   when: ansible_service_mgr == 'systemd'
 
@@ -87,17 +87,17 @@
 
 - name: Install init.d script cowrie
   become: true
-  tags: [startup,root]
+  tags: [startup, root]
   template: src=cowrie.service dest=/etc/init.d/cowrie
   when: ansible_service_mgr == 'sysvinit'
 
 - name: Make /etc/init.d/cowrie executable
   become: true
-  tags: [startup,root]
+  tags: [startup, root]
   file: path=/etc/init.d/cowrie mode=0755
   when: ansible_service_mgr == 'sysvinit'
 
 - name: Restart cowrie
-  tags: [update,root]
+  tags: [update, root]
   service: name=cowrie state=restarted
 

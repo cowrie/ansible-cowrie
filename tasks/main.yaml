@@ -37,7 +37,7 @@
 
 # TODO: needs to pull
 - name: Git pull Cowrie repository
-  tags: [git,never]
+  tags: [git, never]
   become: yes
   become_user: "{{ cowrie_user }}"
   git:
@@ -64,7 +64,7 @@
     state: latest
 
 - name: Install optional Python packages in Virtual Environment
-  tags: [update,never]
+  tags: [update, never]
   become: yes
   become_user: "{{ cowrie_user }}"
   pip:
@@ -73,7 +73,7 @@
     state: latest
 
 - name: Install Cowrie config file
-  tags: [cfg,update]
+  tags: [cfg, update]
   become: yes
   become_user: "{{ cowrie_user }}"
   template: src=cowrie.cfg.j2 dest="{{ cowrie_dir }}/etc/cowrie.cfg"

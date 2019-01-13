@@ -33,7 +33,7 @@
     state: latest
 
 - name: Install optional Python packages in Virtual Environment
-  tags: [update,never]
+  tags: [update, never]
   become: yes
   become_user: "{{ cowrie_user }}"
   pip:

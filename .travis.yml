@@ -3,7 +3,7 @@ services:
   - docker
 language: python
 install:
-  - pip install ansible
+  - pip install ansible ansible-lint
 env:
 #  - distribution: centos
 #    version: 7

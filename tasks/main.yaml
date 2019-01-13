@@ -46,10 +46,12 @@
     force: yes
 
 - name: Install Cowrie config file
-  tags: [cfg, update]
+  tags: [cfg]
   become: yes
   become_user: "{{ cowrie_user }}"
-  template: src=cowrie.cfg.j2 dest="{{ cowrie_dir }}/etc/cowrie.cfg"
+  template:
+    src: ../templates/cowrie.cfg.j2
+    dest: "{{ cowrie_dir }}/etc/cowrie.cfg"
 
 - import_tasks: cowrie-startup.yaml
   become: yes

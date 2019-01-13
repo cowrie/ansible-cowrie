@@ -1,8 +1,11 @@
 ---
 sudo: required
+
 services:
   - docker
+
 language: python
+
 install:
   - pip install ansible ansible-lint molecule docker-py
   - ansible --version
@@ -10,7 +13,6 @@ install:
 
 script:
   - molecule test
-  - molecule check
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

@@ -13,12 +13,12 @@
 # These tasks need to be executed as root
 ##############################################
 
-- import_tasks: cowrie-os.yml
+- import_tasks: cowrie-os.yaml
   tags:
     - cowrie
     - root
 
-- import_tasks: cowrie-venv.yml
+- import_tasks: cowrie-venv.yaml
   tags:
     - cowrie
     - python

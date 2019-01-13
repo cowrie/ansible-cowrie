@@ -35,6 +35,7 @@ script:
   - molecule lint
   - ansible-playbook --syntax-check tests/test.yml
   - ansible-playbook --check -i tests/inventory tests/test.yml
+  - molecule test
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

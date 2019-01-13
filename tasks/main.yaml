@@ -26,18 +26,7 @@
   git:
     repo: "{{ cowrie_repo }}"
     dest: "{{ cowrie_dir }}"
-    version: 1.5.2
-    force: true
-
-# TODO: needs to pull
-- name: Git pull Cowrie repository
-  tags: [git, never]
-  become: true
-  become_user: "{{ cowrie_user }}"
-  git:
-    repo: "{{ cowrie_repo }}"
-    dest: "{{ cowrie_dir }}"
-    version: 1.5.2
+    version: "{{ cowrie_version }}"
     force: true
 
 - name: Install Cowrie config file

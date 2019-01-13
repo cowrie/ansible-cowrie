@@ -1,0 +1,29 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides: cowrie
+# Required-Start: $remote_fs $syslog
+# Required-Stop: $remote_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: cowrie
+# Description: This file starts and stops Cowrie SSH honeypot
+#
+### END INIT INFO
+
+COWRIE_DIR={{ cowrie_dir }}
+
+case "$1" in
+ start)
+   su {{ cowrie_user }} -c "$COWRIE_DIR/bin/cowrie start"
+   ;;
+ stop)
+   su {{ cowrie_user }} -c "$COWRIE_DIR/bin/cowrie stop"
+   ;;
+ restart)
+   su {{ cowrie_user }} -c "$COWRIE_DIR/bin/cowrie restart"
+   ;;
+ *)
+   echo "Usage: cowrie {start|stop|restart}" >&2
+   exit 3
+   ;;
+esac

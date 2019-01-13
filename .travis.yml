@@ -7,7 +7,6 @@ install:
   - pip install ansible ansible-lint molecule docker-py
   - ansible --version
   - molecule --version
-  # - printf '[defaults]\nroles_path=../' >ansible.cfg
 
 script:
   - molecule test

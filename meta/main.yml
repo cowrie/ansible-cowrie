@@ -1,7 +1,7 @@
 galaxy_info:
   author: Michel Oosterhof
   description: Cowrie SSH/Telnet Honeypot
-  company: your company (optional)
+  company: cowrie.org
 
   license: BSD
 

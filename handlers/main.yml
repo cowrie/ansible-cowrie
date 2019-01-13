@@ -1,10 +1,10 @@
 ---
-  - name: reload systemctl
-    systemd:
-      daemon_reload: true
+- name: reload systemctl
+  systemd:
+    daemon_reload: true
 
-  - name: restart cowrie
-    service: name=cowrie state=restarted
+- name: restart cowrie
+  service: name=cowrie state=restarted
 
-  - name: start cowrie
-    service: name=cowrie state=started
+- name: start cowrie
+  service: name=cowrie state=started

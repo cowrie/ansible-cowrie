@@ -29,7 +29,9 @@
   become: true
   tags: [packages, root]
   apt:
-    name: ['git-core', 'libmysqlclient-dev', 'libffi-dev', 'libssl-dev', 'libxml2-dev', 'libxslt1-dev', 'openssl', 'python-pip', 'python-dev', 'build-essential', 'virtualenv']
+    name: ['git-core', 'libmysqlclient-dev', 'libffi-dev', 'libssl-dev',
+           'libxml2-dev', 'libxslt1-dev', 'openssl', 'python-pip',
+           'python-dev', 'build-essential', 'virtualenv']
     state: present
     install_recommends: false
   when: ansible_facts['os_family'] == 'Debian'
@@ -40,7 +42,8 @@
   become: true
   tags: [packages, root]
   yum:
-    name: ['git', 'python-virtualenv', '@Development tools', 'libffi', 'libffi-devel', 'openssl-devel']
+    name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
+           'libffi-devel', 'openssl-devel']
     state: present
   when: ansible_facts['os_family'] == 'RedHat'
 

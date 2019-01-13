@@ -1,12 +1,16 @@
 Ansible-Cowrie
 ##############
 
+This is work in progress, not ready to deploy yet
+
+|travis|_
+
 Ansible scripts for Cowrie
 
 Requirements
 ============
 
-* User with SUDO 
+* to be written
 
 Usage
 ============
@@ -27,3 +31,7 @@ Config values are located in roles/cowrie/defaults/main.yaml
 * Setup virtual environment in /opt/cowrie-env for honeypot & install packages 
 
 * Start Cowrie port 2222
+
+
+.. |travis| image:: https://travis-ci.org/cowrie/ansible-cowrie.svg?branch=master
+.. _travis: https://travis-ci.org/cowrie/ansible-cowrie

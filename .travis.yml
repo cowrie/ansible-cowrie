@@ -5,27 +5,28 @@ language: python
 install:
   - pip install ansible
 env:
-  - distribution: centos
-    version: 7
-  - distribution: centos
-    version: 6
-  - distribution: fedora
-    version: 29
-  - distribution: fedora
-    version: 28
-  - distribution: fedora
-    version: 27
-  - distribution: ubuntu
-    version: xenial
-  - distribution: ubuntu
-    version: trusty
-  - distribution: debian
-    version: buster
+#  - distribution: centos
+#    version: 7
+#  - distribution: centos
+#    version: 6
+#  - distribution: fedora
+#    version: 29
+#  - distribution: fedora
+#    version: 28
+#  - distribution: fedora
+#    version: 27
+#  - distribution: ubuntu
+#    version: xenial
+#  - distribution: ubuntu
+#    version: trusty
+#  - distribution: debian
+#    version: buster
   - distribution: debian
     version: stretch
-  - distribution: debian
-    version: jessie
+#  - distribution: debian
+#    version: jessie
 script:
+  - ansible-lint .
   - ansible-playbook --syntax-check sites.yaml 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

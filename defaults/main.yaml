@@ -1,0 +1,65 @@
+---
+# Cowrie Installation Parameters
+cowrie_version: 1.5.2
+cowrie_sensor: sensor01
+
+# Installation parameters
+cowrie_user: cowrie
+cowrie_group: cowrie
+cowrie_home: /opt/cowrie
+cowrie_dir: "{{ cowrie_home }}/cowrie"
+cowrie_venv: "{{ cowrie_home }}/cowrie-env"
+
+# Cowrie config options
+cowrie_telnet_enabled: true
+cowrie_telnet_port: 2223
+
+# SSH Options
+cowrie_ssh_port: 2222
+cowrie_ssh_version: "SSH-2.0-OpenSSH_6.0p1 Debian-4+deb7u2"
+cowrie_sftp_enabled: true
+
+# Shell emulation options
+cowrie_report_public_ip: true
+cowrie_hostname: email-03
+
+# Define data logging engine: MySQL, Mongo, Elastic Search
+# MySQL settings
+# mysql_host: $MYSQL_IP
+# mysql_port: $MYSQL_PORT
+# mysql_database: $MYSQL_DB
+# mysql_username: $MYSQL_USER
+# mysql_password: $MYSQL_PASS
+
+# ElasticSearch settings
+# es_host: $ES_IP
+# es_port: $ES_PORT
+# es_index: $ES_INDEX
+# es_type: $ES_TYPE
+
+# Virus Total API api_key
+# vt_api_key: $VT_API_KEY
+
+
+# Uncomment the same sections below as above for the data logging engine
+cowrie_settings:
+
+  output_jsonlog:
+    logfile: log/cowrie.json
+
+#    output_mysql:
+#      host: "{{ mysql_host }}"
+#      port: "{{ mysql_port }}"
+#      database: "{{ mysql_database }}"
+#      username: "{{ mysql_username }}"
+#      password: "{{ mysql_password }}"
+
+
+#    output_elasticsearch:
+#       host: "{{ es_host }}"
+#       port: "{{ es_port }}"
+#       index: "{{ es_index }}"
+#       type: "{{ es_type }}"
+
+#    output_virustotal:
+#      api_key: "{{ vt_api_key }}"

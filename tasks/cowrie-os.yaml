@@ -100,4 +100,3 @@
 - name: Restart cowrie
   tags: [update, root]
   service: name=cowrie state=restarted
-

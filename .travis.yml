@@ -4,6 +4,9 @@ services:
 language: python
 install:
   - pip install ansible ansible-lint
+  - ansible --version
+  - printf '[defaults]\nroles_path=../' >ansible.cfg
+
 env:
 #  - distribution: centos
 #    version: 7

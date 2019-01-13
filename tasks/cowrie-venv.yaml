@@ -12,17 +12,17 @@
 # Prepare Python virtual environment
 ##############################################
 
-- name: Update Python packages in Virtual Environment
-  tags: [update]
+- name: Ensure prereq Python packages in Virtual Environment
+  tags: [python]
   become: yes
   become_user: "{{ cowrie_user }}"
   pip:
     name: ['pip', 'setuptools']
     virtualenv: "{{ cowrie_venv }}"
-    state: latest
+    state: present
 
-- name: Install Python packages in Virtual Environment
-  tags: [update]
+- name: Ensure requirements.txt Python packages in Virtual Environment
+  tags: [python]
   become: yes
   become_user: "{{ cowrie_user }}"
   pip:
@@ -31,7 +31,7 @@
     state: present
 
 - name: Install optional Python packages in Virtual Environment
-  tags: [update, never]
+  tags: [python, never]
   become: yes
   become_user: "{{ cowrie_user }}"
   pip:

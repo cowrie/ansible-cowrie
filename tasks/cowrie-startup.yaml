@@ -1,0 +1,42 @@
+# Ansible Tasks for Cowrie SSH/Telnet Honeypot
+##############################################
+
+# Available tags:
+# - debug
+# - never
+# - always
+# - update
+# - root      -- this tags require sudo access
+# - docker    -- for use with docker
+
+# These tasks need to be executed as root
+##############################################
+
+# Startup for systemd
+
+- name: Install systemd unit file
+  template: src=cowrie.service.j2 dest=/etc/systemd/system/cowrie.service
+  tags: [startup, root]
+  notify:
+    - reload systemctl
+    - restart cowrie
+  when: ansible_service_mgr == 'systemd'
+
+- name: Enable cowrie service
+  tags: [startup, root]
+  service: name=cowrie enabled=yes
+  when: ansible_service_mgr == 'systemd'
+
+# Startup for init.d
+
+- name: Install init.d script cowrie
+  become: true
+  tags: [startup, root]
+  template: src=cowrie.service dest=/etc/init.d/cowrie
+  when: ansible_service_mgr == 'sysvinit'
+
+- name: Make /etc/init.d/cowrie executable
+  become: true
+  tags: [startup, root]
+  file: path=/etc/init.d/cowrie mode=0755
+  when: ansible_service_mgr == 'sysvinit'

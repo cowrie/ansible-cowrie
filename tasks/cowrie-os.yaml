@@ -24,7 +24,7 @@
 #    name: git
 #    state: present
 
-- name: install debian os dependencies
+- name: Ensure debian os dependencies
   become: true
   tags: [packages, root]
   apt:
@@ -35,7 +35,7 @@
 
 # TODO: look into DNF, RedHat's new package manager
 
-- name: install redhat os dependencies
+- name: Ensure redhat os dependencies
   become: true
   tags: [packages, root]
   yum:
@@ -52,7 +52,7 @@
 #    - name: virtualenv
 #    - state: present
 
-- name: Create Cowrie User
+- name: Ensure Cowrie user
   become: true
   tags: [user, root]
   user:
@@ -62,41 +62,9 @@
     state: present
     password: "!"
 
-# TODO: this needs to be rewritten
-
-#- name: Alias 22REDIRECT = iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-ports 2222
-#  tags: [alias22,root]
-#  lineinfile: dest=/home/{{ user }}/.bashrc line="alias 22REDIRECT='sudo iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-ports 2222'" insertafter=EOF
-
-# Startup for systemd
-
-- name: Install systemd unit file
-  template: src=cowrie.service.j2 dest=/etc/systemd/system/cowrie.service
-  tags: [startup, root]
-  notify:
-    - reload systemctl
-    - restart cowrie
-  when: ansible_service_mgr == 'systemd'
-
-- name: Enable cowrie service
-  tags: [startup, root]
-  service: name=cowrie enabled=yes
-  when: ansible_service_mgr == 'systemd'
-
-# Startup for init.d
-
-- name: Install init.d script cowrie
+- name: Ensure Cowrie group
   become: true
-  tags: [startup, root]
-  template: src=cowrie.service dest=/etc/init.d/cowrie
-  when: ansible_service_mgr == 'sysvinit'
-
-- name: Make /etc/init.d/cowrie executable
-  become: true
-  tags: [startup, root]
-  file: path=/etc/init.d/cowrie mode=0755
-  when: ansible_service_mgr == 'sysvinit'
-
-- name: Restart cowrie
-  tags: [update, root]
-  service: name=cowrie state=restarted
+  tags: [user, root]
+  group:
+    name: "{{ cowrie_group }}"
+    state: present

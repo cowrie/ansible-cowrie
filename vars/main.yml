@@ -1,2 +1,3 @@
 ---
-# vars file for cowrie
+# Cowrie Installation Parameters
+  cowrie_repo: https://github.com/cowrie/cowrie

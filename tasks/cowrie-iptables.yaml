@@ -17,11 +17,13 @@
 
 - name: Redirect port 22 to 2222
   tag: [root, never]
-  command: iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
+  command: iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT \
+    --to-port 2222
 
 - name: Redirect port 22 to 2223
   tag: [root, never]
-  command: iptables -t nat -A PREROUTING -p tcp --dport 23 -j REDIRECT --to-port 2223
+  command: iptables -t nat -A PREROUTING -p tcp --dport 23 -j REDIRECT \
+    --to-port 2223
 
 - name: Redirect port 22 to 2222
   become: true

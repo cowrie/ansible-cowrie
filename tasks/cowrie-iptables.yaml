@@ -13,10 +13,38 @@
 # These tasks need to be executed as root
 ##############################################
 
-# TODO: this needs to be rewritten
 # TODO: this needs extra code to maybe change original SSH?
 
-# name: Alias 22REDIRECT
-# tags: [root]
-# lineinfile: 'sudo iptables -t nat -A PREROUTING -p tcp --dport 22
-#             -j REDIRECT --to-ports 2222'
+- name: Redirect port 22 to 2222
+  tag: [root, never]
+  command: iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
+
+- name: Redirect port 22 to 2223
+  tag: [root, never]
+  command: iptables -t nat -A PREROUTING -p tcp --dport 23 -j REDIRECT --to-port 2223
+
+- name: Redirect port 22 to 2222
+  become: true
+  tag: [root]
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    match: tcp
+    destination_port: 22
+    jump: REDIRECT
+    to_ports: 2222
+    comment: Redirect ssh traffic to port 2222
+
+- name: Redirect port 23 to 2223
+  become: true
+  tag: [root]
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    match: tcp
+    destination_port: 23
+    jump: REDIRECT
+    to_ports: 2223
+    comment: Redirect telnet traffic to port 2223

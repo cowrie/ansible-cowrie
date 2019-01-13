@@ -33,5 +33,5 @@ Config values are located in roles/cowrie/defaults/main.yaml
 * Start Cowrie port 2222
 
 
-.. |travis| image:: https://travis-ci.org/cowrie/ansible-cowrie.svg?branch=master
-.. _travis: https://travis-ci.org/cowrie/ansible-cowrie
+.. |travis| image:: https://travis-ci.com/cowrie/ansible-cowrie.svg?branch=master
+.. _travis: https://travis-ci.com/cowrie/ansible-cowrie

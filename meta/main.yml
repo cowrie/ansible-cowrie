@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: cowrie
   author: Michel Oosterhof
   description: Cowrie SSH/Telnet Honeypot
   company: cowrie.org

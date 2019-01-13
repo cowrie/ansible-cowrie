@@ -27,7 +27,9 @@ env:
 #    version: jessie
 script:
   - ansible-lint .
-  - ansible-playbook --syntax-check sites.yaml 
+  - ansible-playbook --syntax-check tests/test.yml
+  - ansible-playbook --check -i tests/inventory tests/test.yml
+
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
   email: false

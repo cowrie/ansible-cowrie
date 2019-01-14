@@ -10,17 +10,17 @@
 #
 ### END INIT INFO
 
-COWRIE_DIR={{ cowrie_dir }}
+COWRIE_DIR="{{ cowrie_dir }}"
 
 case "$1" in
  start)
-   su {{ cowrie_user }} -c "$COWRIE_DIR/bin/cowrie start"
+   su {{ cowrie_user }} -c "${COWRIE_DIR}/bin/cowrie start"
    ;;
  stop)
-   su {{ cowrie_user }} -c "$COWRIE_DIR/bin/cowrie stop"
+   su {{ cowrie_user }} -c "${COWRIE_DIR}/bin/cowrie stop"
    ;;
  restart)
-   su {{ cowrie_user }} -c "$COWRIE_DIR/bin/cowrie restart"
+   su {{ cowrie_user }} -c "${COWRIE_DIR}/bin/cowrie restart"
    ;;
  *)
    echo "Usage: cowrie {start|stop|restart}" >&2

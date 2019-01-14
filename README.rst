@@ -5,33 +5,28 @@ This is work in progress, not ready to deploy yet
 
 |travis|_
 
-Ansible scripts for Cowrie
+Ansible role to deploy the Cowrie SSH/Telnet Honeypot.
 
 Requirements
-============
+--------------
 
-* to be written
+Currently root access is required to create the appropriate users and modify the Linux firewall.
 
-Usage
-============
+Role Variables
+--------------
 
-Edit sites.yaml and replace $USER with appropriate user. Needs sudo access
+A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
-Overview
-============
+Config values are located in `defaults/main.yaml`
 
-Config values are located in roles/cowrie/defaults/main.yaml
+Example Playbook
+----------------
 
-* Update, install packages & pip install 
+Example::
 
-* Set up Cowrie users with home directory located in /opt/cowrie.
-
-* Clone https://github.com/cowrie/cowrie into /opt/cowrie/cowrie
-
-* Setup virtual environment in /opt/cowrie-env for honeypot & install packages 
-
-* Start Cowrie port 2222
-
+    - hosts: honeypots
+      roles:
+         - { role: ansible-cowrie }
 
 .. |travis| image:: https://travis-ci.com/cowrie/ansible-cowrie.svg?branch=master
 .. _travis: https://travis-ci.com/cowrie/ansible-cowrie

@@ -13,17 +13,16 @@
 # These tasks need to be executed as root
 ##############################################
 
-# TODO: this needs extra code to maybe change original SSH?
-
-- name: Redirect port 22 to 2222
-  tag: [root, never]
-  command: iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT \
-    --to-port 2222
-
-- name: Redirect port 22 to 2223
-  tag: [root, never]
-  command: iptables -t nat -A PREROUTING -p tcp --dport 23 -j REDIRECT \
-    --to-port 2223
+- name: Cowrie | ensure no conflict with default ssh server
+  tag: [root]
+  become: true
+  lineinfile:
+    - dest: '/etc/ssh/sshd_config'
+      regexp: '^Port 22$'
+      line: 'Port {{ real_ssh_port }}'
+  notify:
+    - restart ssh
+  when: real_ssh_port is defined and real_ssh_port != '' and real_ssh_port != 22
 
 - name: Redirect port 22 to 2222
   become: true

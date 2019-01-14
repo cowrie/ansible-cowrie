@@ -1,7 +1,11 @@
 ---
 # Cowrie Installation Parameters
+
+# Version to download, use HEAD for latest master branch
 cowrie_version: 1.5.2
-cowrie_sensor: sensor01
+
+# Your original SSH server will be moved to this port if it's not 22!
+real_ssh_port: 222
 
 # Installation parameters
 cowrie_user: cowrie
@@ -9,6 +13,9 @@ cowrie_group: cowrie
 cowrie_home: /opt/cowrie
 cowrie_dir: "{{ cowrie_home }}/cowrie"
 cowrie_venv: "{{ cowrie_home }}/cowrie-env"
+
+# Name of the sensor as used in reports
+cowrie_sensor: sensor01
 
 # Cowrie config options
 cowrie_telnet_enabled: true

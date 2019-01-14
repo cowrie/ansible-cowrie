@@ -32,6 +32,24 @@
   service: name=cowrie enabled=yes
   when: ansible_service_mgr == 'systemd'
 
+# Startup for upstart
+
+- name: Install upstart unit file
+  become: true
+  tags: [startup, root]
+  template:
+    src: cowrie.conf.upstart.j2
+    dest: /etc/init/cowrie.conf
+  notify:
+    - restart cowrie
+  when: ansible_service_mgr == 'upstart'
+
+- name: Enable cowrie service
+  become: true
+  tags: [startup, root]
+  service: name=cowrie enabled=yes
+  when: ansible_service_mgr == 'upstart'
+
 # Startup for init.d
 
 - name: Install init.d script cowrie

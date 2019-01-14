@@ -37,7 +37,18 @@
            'python-setuptools', 'python-dev', 'build-essential', 'virtualenv']
     state: present
     install_recommends: false
-  when: ansible_facts['os_family'] == 'Debian'
+  when: ansible_facts['distribution'] == 'Debian'
+
+- name: Ensure ubuntu os dependencies
+  become: true
+  tags: [packages, root]
+  apt:
+    name: ['git-core', 'libffi-dev', 'libssl-dev', 'python-virtualenv',
+           'libxml2-dev', 'libxslt1-dev', 'openssl', 'python-pip',
+           'python-setuptools', 'python-dev', 'build-essential']
+    state: present
+    install_recommends: false
+  when: ansible_facts['distribution'] == 'Ubuntu'
 
 # TODO: look into DNF, RedHat's new package manager
 

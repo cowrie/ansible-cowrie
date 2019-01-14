@@ -1,0 +1,9 @@
+description "Cowrie SSH/Telnet Honeypot"
+author "Michel Oosterhof"
+start on runlevel [2345]
+stop on shutdown
+
+script
+    export COWRIE_DIR="{{ cowrie_dir }}"
+    su {{ cowrie_user }} -c "${COWRIE_DIR}/bin/cowrie start"
+end script

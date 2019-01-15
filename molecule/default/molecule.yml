@@ -8,12 +8,18 @@ lint:
 platforms:
   - name: instance-centos7
     image: centos:7
+  - name: instance-centos6
+    image: centos:6
   - name: instance-debian-jessie
     image: debian:jessie
   - name: instance-debian-stretch
     image: debian:stretch
   - name: instance-ubuntu-trusty
     image: ubuntu:trusty
+  - name: instance-redhat-6
+    image: redhat:6
+  - name: instance-redhat-7
+    image: redhat:7
 provisioner:
   name: ansible
   lint:

@@ -45,7 +45,7 @@
     path: "{{ cowrie_dir }}/etc/cowrie.cfg"
     section: telnet
     option: enabled
-    value: yes
+    value: true
 
 - import_tasks: cowrie-venv.yaml
   become: true

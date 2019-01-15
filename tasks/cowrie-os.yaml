@@ -19,6 +19,11 @@
   tags: [update, root, never]
   when: ansible_facts['os_family'] == 'Debian'
 
+- name: yum update
+  yum: update_cache=yes
+  tags: [update, root, never]
+  when: ansible_facts['os_family'] == 'RedHat'
+
 # TODO: Use independent method ??
 # - name: Install prerequisites packages
 #   package:
@@ -27,6 +32,8 @@
 
 #  'default-libmysqlclient-dev', -> on debian
 #  'libmysqlclient-dev', -> on ubuntu etc
+
+# Debian OS
 
 - name: Ensure debian os dependencies
   become: true
@@ -39,6 +46,8 @@
     install_recommends: false
   when: ansible_facts['distribution'] == 'Debian'
 
+# Ubuntu
+
 - name: Ensure ubuntu os dependencies
   become: true
   tags: [packages, root]
@@ -50,8 +59,6 @@
     install_recommends: false
   when: ansible_facts['distribution'] == 'Ubuntu'
 
-# TODO: look into DNF, RedHat's new package manager
-
 - name: Ensure redhat os dependencies
   become: true
   tags: [packages, root]
@@ -59,7 +66,25 @@
     name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
            'libffi-devel', 'openssl-devel']
     state: present
-  when: ansible_facts['os_family'] == 'RedHat'
+  when: ansible_facts['distribution'] == 'RedHat'
+
+- name: Ensure centos os dependencies
+  become: true
+  tags: [packages, root]
+  yum:
+    name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
+           'libffi-devel', 'openssl-devel']
+    state: present
+  when: ansible_facts['distribution'] == 'CentOS'
+
+- name: Ensure fedora os dependencies
+  become: true
+  tags: [packages, root]
+  dnf:
+    name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
+           'libffi-devel', 'openssl-devel']
+    state: present
+  when: ansible_facts['distribution'] == 'Fedora'
 
 # TODO: Probably don't need this at the OS level
 

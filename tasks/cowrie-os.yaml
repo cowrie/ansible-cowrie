@@ -44,7 +44,7 @@
            'python-setuptools', 'python-dev', 'build-essential', 'virtualenv']
     state: present
     install_recommends: false
-  when: ansible_facts['distribution'] == 'Debian'
+  when: ansible_facts['distribution'] == 'Debian' and python_version == 2
 
 # Ubuntu
 
@@ -57,7 +57,7 @@
            'python-setuptools', 'python-dev', 'build-essential']
     state: present
     install_recommends: false
-  when: ansible_facts['distribution'] == 'Ubuntu'
+  when: ansible_facts['distribution'] == 'Ubuntu' and python_version == 2
 
 - name: Ensure redhat os dependencies
   become: true
@@ -66,7 +66,7 @@
     name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
            'libffi-devel', 'openssl-devel']
     state: present
-  when: ansible_facts['distribution'] == 'RedHat'
+  when: ansible_facts['distribution'] == 'RedHat' and python_version == 2
 
 - name: Ensure centos os dependencies
   become: true
@@ -75,7 +75,7 @@
     name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
            'libffi-devel', 'openssl-devel']
     state: present
-  when: ansible_facts['distribution'] == 'CentOS'
+  when: ansible_facts['distribution'] == 'CentOS' and python_version == 2
 
 - name: Ensure fedora os dependencies
   become: true
@@ -84,7 +84,7 @@
     name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
            'libffi-devel', 'openssl-devel']
     state: present
-  when: ansible_facts['distribution'] == 'Fedora'
+  when: ansible_facts['distribution'] == 'Fedora' and python_version == 2
 
 # TODO: Probably don't need this at the OS level
 

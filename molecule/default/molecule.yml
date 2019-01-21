@@ -14,14 +14,23 @@ platforms:
     image: debian:jessie
   - name: instance-debian-stretch
     image: debian:stretch
+  - name: instance-debian-buster
+    image: debian:buster
+  - name: instance-debian-sid
+    image: debian:sid
   - name: instance-ubuntu-trusty
     image: ubuntu:trusty
   - name: instance-redhat-6
-    image: redhat:6
+    image: rhel6/rhel
+    registry:
+      url: registry.access.redhat.com
   - name: instance-redhat-7
-    image: redhat:7
+    image: rhel7/rhel-atomic
+    registry:
+      url: registry.access.redhat.com
 provisioner:
   name: ansible
+  log: true
   lint:
     name: ansible-lint
 scenario:

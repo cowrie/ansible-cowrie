@@ -30,12 +30,12 @@
 #     name: git
 #     state: present
 
-#  'default-libmysqlclient-dev', -> on debian
+#  'default-libmysqlclient-dev', -> on Debian
 #  'libmysqlclient-dev', -> on ubuntu etc
 
-# Debian OS
+# Debian OS Python2
 
-- name: Ensure debian os dependencies
+- name: Ensure Debian os dependencies
   become: true
   tags: [packages, root]
   apt:
@@ -46,9 +46,23 @@
     install_recommends: false
   when: ansible_facts['distribution'] == 'Debian' and python_version == 2
 
-# Ubuntu
+# Debian OS Python3
 
-- name: Ensure ubuntu os dependencies
+- name: Ensure Debian os dependencies
+  become: true
+  tags: [packages, root]
+  apt:
+    name: ['python3-pip', 'libssl-dev', 'libffi-dev', 'python3-dev',
+           'python3-venv', 'python3', 'gcc', 'git', 'build-essential',
+           'python3-virtualenv', 'libsnappy-dev',
+           'default-libmysqlclient-dev']
+    state: present
+    install_recommends: false
+  when: ansible_facts['distribution'] == 'Debian' and python_version == 3
+
+# Ubuntu Python 2
+
+- name: Ensure Ubuntu os dependencies
   become: true
   tags: [packages, root]
   apt:
@@ -59,6 +73,22 @@
     install_recommends: false
   when: ansible_facts['distribution'] == 'Ubuntu' and python_version == 2
 
+# Ubuntu Python 3
+
+- name: Ensure ubuntu os dependencies
+  become: true
+  tags: [packages, root]
+  apt:
+    name: ['python3-pip', 'libssl-dev', 'libffi-dev', 'python3-dev',
+           'python3-venv', 'python3', 'gcc', 'git', 'build-essential',
+           'python3-virtualenv', 'libsnappy-dev',
+           'default-libmysqlclient-dev']
+    state: present
+    install_recommends: false
+  when: ansible_facts['distribution'] == 'Ubuntu' and python_version == 3
+
+# Redhat Python 2
+
 - name: Ensure redhat os dependencies
   become: true
   tags: [packages, root]
@@ -67,6 +97,19 @@
            'libffi-devel', 'openssl-devel']
     state: present
   when: ansible_facts['distribution'] == 'RedHat' and python_version == 2
+
+# Redhat Python 3
+
+- name: Ensure redhat os dependencies
+  become: true
+  tags: [packages, root]
+  yum:
+    name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
+           'libffi-devel', 'openssl-devel']
+    state: present
+  when: ansible_facts['distribution'] == 'RedHat' and python_version == 3
+
+# CentOS Python 2
 
 - name: Ensure centos os dependencies
   become: true
@@ -77,6 +120,19 @@
     state: present
   when: ansible_facts['distribution'] == 'CentOS' and python_version == 2
 
+# CentOS Python 3
+
+- name: Ensure centos os dependencies
+  become: true
+  tags: [packages, root]
+  yum:
+    name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
+           'libffi-devel', 'openssl-devel']
+    state: present
+  when: ansible_facts['distribution'] == 'CentOS' and python_version == 3
+
+# Fedora Python 2
+
 - name: Ensure fedora os dependencies
   become: true
   tags: [packages, root]
@@ -85,6 +141,17 @@
            'libffi-devel', 'openssl-devel']
     state: present
   when: ansible_facts['distribution'] == 'Fedora' and python_version == 2
+
+# Fedora Python 3
+
+- name: Ensure fedora os dependencies
+  become: true
+  tags: [packages, root]
+  dnf:
+    name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
+           'libffi-devel', 'openssl-devel']
+    state: present
+  when: ansible_facts['distribution'] == 'Fedora' and python_version == 3
 
 # TODO: Probably don't need this at the OS level
 

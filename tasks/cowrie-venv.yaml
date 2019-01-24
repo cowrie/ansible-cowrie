@@ -20,7 +20,7 @@
   pip:
     name: ['pip>9', 'setuptools>18.5']
     virtualenv: "{{ cowrie_venv }}"
-    virtualenv_python: "{{ python_version }}"
+    virtualenv_python: "python{{ python_version }}"
     state: present
 
 - name: Ensure requirements.txt Python packages in Virtual Environment

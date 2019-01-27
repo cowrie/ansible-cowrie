@@ -92,6 +92,28 @@
     install_recommends: false
   when: ansible_facts['distribution'] == 'Ubuntu' and python_version == 3
 
+# Amazonlinux Python 2
+
+- name: Ensure Amazonlinux os dependencies
+  become: true
+  tags: [packages, root]
+  yum:
+    name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
+           'libffi-devel', 'openssl-devel', 'shadow-utils']
+    state: present
+  when: ansible_facts['distribution'] == 'Amazon' and python_version == 2
+
+# Amazonlinux Python 3
+
+- name: Ensure Amazonlinux os dependencies
+  become: true
+  tags: [packages, root]
+  yum:
+    name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
+           'libffi-devel', 'openssl-devel', 'shadow-utils']
+    state: present
+  when: ansible_facts['distribution'] == 'Amazon' and python_version == 3
+
 # Redhat Python 2
 
 - name: Ensure redhat os dependencies

@@ -21,7 +21,7 @@
 
 - name: yum update
   yum: update_cache=yes
-  tags: [update, root, never]
+  tags: [update, root]
   when: ansible_facts['os_family'] == 'RedHat'
 
 - name: dnf update

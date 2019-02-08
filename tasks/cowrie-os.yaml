@@ -118,6 +118,7 @@
 
 - name: Ensure redhat os dependencies
   become: true
+  become_method: su
   tags: [packages, root]
   yum:
     name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
@@ -129,6 +130,7 @@
 
 - name: Ensure redhat os dependencies
   become: true
+  become_method: su
   tags: [packages, root]
   yum:
     name: ['git', 'python-virtualenv', '@Development tools', 'libffi',

@@ -10,8 +10,8 @@ platforms:
     image: amazonlinux
   - name: instance-centos7
     image: centos:7
-  # - name: instance-centos6
-  #    image: centos:6
+  - name: instance-centos6
+    image: centos:6
   - name: instance-debian-jessie
     image: debian:jessie
   - name: instance-debian-stretch
@@ -22,10 +22,10 @@ platforms:
     image: debian:sid
   - name: instance-ubuntu-trusty
     image: ubuntu:trusty
-  - name: instance-redhat-6
-    image: rhel6/rhel
-    registry:
-      url: registry.access.redhat.com
+#  - name: instance-redhat-6
+#    image: rhel6/rhel
+#    registry:
+#      url: registry.access.redhat.com
 # - name: instance-redhat-7
 #   image: rhel7/rhel
 #   registry:

@@ -17,7 +17,7 @@
   tag: [root]
   become: true
   lineinfile:
-    - dest: '/etc/ssh/sshd_config'
+    - path: '/etc/ssh/sshd_config'
       regexp: '^Port 22$'
       line: 'Port {{ real_ssh_port }}'
   notify:

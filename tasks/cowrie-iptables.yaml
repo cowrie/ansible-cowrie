@@ -22,7 +22,7 @@
     line: 'Port {{ real_ssh_port }}'
   notify:
     - restart ssh
-  when: real_ssh_port is defined and real_ssh_port != '' and real_ssh_port != 22
+  when: real_ssh_port is defined and real_ssh_port != 22
 
 - name: Redirect port 22 to 2222
   become: true

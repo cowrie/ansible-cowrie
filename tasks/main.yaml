@@ -34,7 +34,7 @@
   become: true
   become_user: "{{ cowrie_user }}"
   template:
-    src: ../templates/cowrie.cfg.j2
+    src: templates/cowrie.cfg.j2
     dest: "{{ cowrie_dir }}/etc/cowrie.cfg"
 
 - name: Ensure Cowrie config file has telnet enabled

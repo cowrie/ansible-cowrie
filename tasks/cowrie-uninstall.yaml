@@ -1,0 +1,51 @@
+---
+# Ansible Tasks for Cowrie SSH/Telnet Honeypot
+##############################################
+
+# Available tags:
+# - debug
+# - never
+# - always
+# - update
+# - root      -- this tags require sudo access
+# - docker    -- for use with docker
+
+# Remove Cowrie
+# This will not remove operating system dependencies
+##############################################
+
+- name: Remove virtual environment
+  tags: [never, uninstall]
+  become: true
+  become_user: "{{ cowrie_user }}"
+  file:
+    state: absent
+    name: "{{ cowrie_venv }}"
+    force: true
+
+- name: Remove Cowrie directory
+  tags: [never, uninstall]
+  become: true
+  become_user: "{{ cowrie_user }}"
+  file:
+    state: absent
+    name: "{{ cowrie_dir }}"
+    repo: "{{ cowrie_repo }}"
+    force: true
+
+- name: Ensure Cowrie user
+  become: true
+  tags: [never, uninstall]
+  user:
+    name: "{{ cowrie_user }}"
+    state: absent
+    force: true
+
+- name: Ensure Cowrie group
+  become: true
+  tags: [never, uninstall]
+  group:
+    name: "{{ cowrie_group }}"
+    state: absent
+    force: true
+

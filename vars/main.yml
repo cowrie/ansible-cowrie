@@ -3,4 +3,4 @@
 cowrie_repo: https://github.com/cowrie/cowrie
 
 # Whether to use Python 2 or Python 3 to run Cowrie
-python_version: 2
+python_version: 3

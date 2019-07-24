@@ -48,4 +48,3 @@
     name: "{{ cowrie_group }}"
     state: absent
     force: true
-

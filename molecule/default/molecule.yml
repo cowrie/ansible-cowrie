@@ -18,8 +18,12 @@ platforms:
     image: debian:buster
   - name: instance-debian-sid
     image: debian:sid
-  - name: instance-ubuntu-trusty
-    image: ubuntu:trusty
+  - name: instance-ubuntu-bionic
+    image: ubuntu:bionic
+  - name: instance-ubuntu-cosmic
+    image: ubuntu:cosmic
+  - name: instance-ubuntu-disco
+    image: ubuntu:disco
 #  - name: instance-redhat-6
 #    image: rhel6/rhel
 #    registry:

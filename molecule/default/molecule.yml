@@ -12,8 +12,6 @@ platforms:
     image: centos:7
   #  - name: instance-centos6
   #    image: centos:6
-  - name: instance-debian-jessie
-    image: debian:jessie
   - name: instance-debian-stretch
     image: debian:stretch
   - name: instance-debian-buster

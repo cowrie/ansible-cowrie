@@ -109,7 +109,7 @@
   become: true
   tags: [packages, root]
   yum:
-    name: ['git', 'python-virtualenv', '@Development tools', 'libffi',
+    name: ['python3', 'python3-devel', 'git', 'python-virtualenv', '@Development tools', 'libffi',
            'libffi-devel', 'openssl-devel', 'shadow-utils']
     state: present
   when: ansible_facts['distribution'] == 'Amazon' and python_version == 3

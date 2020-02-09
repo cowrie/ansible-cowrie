@@ -11,6 +11,7 @@ User={{ cowrie_user }}
 Group={{ cowrie_group }}
 WorkingDirectory={{ cowrie_dir }}
 ProtectSystem=true
+Environment=PYTHONPATH={{ cowrie_dir }}/src
 ExecStart={{ cowrie_venv }}/bin/python {{cowrie_venv}}/bin/twistd --umask 0022 -n --pidfile= -l - cowrie
 PermissionsStartOnly=yes
 Restart=always
